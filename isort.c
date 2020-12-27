@@ -21,7 +21,7 @@ int main(int argc, char const *argv[])
     {
         printf("%d", *arr);
     }
-    for (int i = 1; i < sizeof(arr) / sizeof(int); i++)
+    for (int i = 1; i < (int)(sizeof(arr) / sizeof(int)); i++)
     {
         printf(",%d", *(arr + i));
     }

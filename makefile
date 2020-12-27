@@ -1,11 +1,13 @@
 CC = gcc -g -Wall
-main = main.o
+mo = isort txtfind
 mc = main.c
 
-all: $(mc)
-	$(CC) $^ -o main
+all: $(mo)
+isort: isort.c
+	$(CC) $^ -o $@
+txtfind: txtfind.c
+	$(CC) $^ -o $@
 
 .PHONY: all clean
-
 clean:
-	-rm main
+	-rm isort txtfind
