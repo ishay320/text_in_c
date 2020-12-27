@@ -7,22 +7,34 @@ void insertion_sort(int *arr, int len);
 
 int main(int argc, char const *argv[])
 {
-    printf("insert num for arr: ");
     int arr[ARR_SIZE];
+    //geting the numbers from the user
+    printf("insert %d numbers for the arr: ", ARR_SIZE);
     for (int i = 0; i < ARR_SIZE; i++)
     {
         scanf(" %d", (arr + i));
     }
-
+    //doing the function
     insertion_sort(arr, sizeof(arr) / sizeof(int));
-    for (int i = 0; i < sizeof(arr) / sizeof(int); i++)
+    //printing
+    if (sizeof(arr) / sizeof(int) > 0)
     {
-        printf("%d, ", arr[i]);
+        printf("%d", *arr);
+    }
+    for (int i = 1; i < sizeof(arr) / sizeof(int); i++)
+    {
+        printf(",%d", *(arr + i));
     }
 
     return 0;
 }
 
+/**
+ * @brief 
+ * 
+ * @param arr 
+ * @param i 
+ */
 void shift_element(int *arr, int i)
 {
     int next_num = 0;
@@ -42,6 +54,12 @@ void shift_element(int *arr, int i)
     }
 }
 
+/**
+ * @brief this function sort numbers in insertion sort
+ * 
+ * @param arr the pointer to array for sorting 
+ * @param len length of the array to sort
+ */
 void insertion_sort(int *arr, int len)
 {
     for (int i = 0; i < len; i++)
