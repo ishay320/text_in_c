@@ -4,7 +4,7 @@
 #define LINE 256
 
 int substring(char *str1, char *str2);
-int getNextWord(char *txt, char *str, int pos);
+int getNextWord(char *txt, char *str, int wordNumber);
 int getCommand(char *word, char *command);
 
 int main()
@@ -121,4 +121,41 @@ int getLine(char *line)
     }
 
     return sizeOfLine;
+}
+
+/**
+ * @brief Get the Next Word number "wordNumber"
+ * 
+ * @param txt the txt to look in
+ * @param str the returned word
+ * @param wordNumber what number of word to look
+ * @return int return 1 if succeeded 0 if no word found
+ */
+int getNextWord(char *txt, char *str, int wordNumber)
+{
+    int i = 0;
+    int posInWord = 0;
+    int passedWord = 0;
+    while (*(txt + i) != '\n' && *(txt + i) != '\0' && passedWord != wordNumber)
+    {
+        if (*(txt + i) != '\t' && *(txt + i) != ' ')
+        {
+            *(str + posInWord++) = *(txt + i++);
+            *(str + posInWord) = '\0';
+        }
+        else
+        {
+            if (posInWord)
+            {
+                passedWord++;
+            }
+            posInWord = 0;
+            i++;
+        }
+    }
+    if (passedWord == wordNumber || passedWord + 1 == wordNumber)
+    {
+        return 1;
+    }
+    return 0;
 }
