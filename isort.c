@@ -5,7 +5,7 @@
 void shift_element(int *arr, int i);
 void insertion_sort(int *arr, int len);
 
-int main(int argc, char const *argv[])
+int main()
 {
     int arr[ARR_SIZE];
     //geting the numbers from the user
