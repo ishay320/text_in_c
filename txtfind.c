@@ -125,7 +125,7 @@ int getLine(char *line)
 
 /**
  * @brief Get the Next Word number "wordNumber"
- * 
+ *        starts from 1
  * @param txt the txt to look in
  * @param str the returned word
  * @param wordNumber what number of word to look
@@ -153,9 +153,10 @@ int getNextWord(char *txt, char *str, int wordNumber)
             i++;
         }
     }
-    if (passedWord == wordNumber || passedWord + 1 == wordNumber)
+    if ((passedWord == wordNumber || passedWord + 1 == wordNumber) && wordNumber > 0)
     {
         return 1;
     }
+    *(str) = '\0';
     return 0;
 }
