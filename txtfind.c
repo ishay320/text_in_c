@@ -168,7 +168,7 @@ int getNextWord(char *txt, char *str, int wordSize, int wordNumber)
             i++;
         }
     }
-    if ((passedWord == wordNumber || passedWord + 1 == wordNumber) && wordNumber > 0)
+    if (passedWord == wordNumber && wordNumber > 0)
     {
         return 1;
     }
