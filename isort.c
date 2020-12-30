@@ -30,10 +30,10 @@ int main()
 }
 
 /**
- * @brief 
+ * @brief shift all the array from the pointer to i+1
  * 
- * @param arr 
- * @param i 
+ * @param arr the pos of the start pos
+ * @param i the place to end
  */
 void shift_element(int *arr, int i)
 {

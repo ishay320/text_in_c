@@ -4,51 +4,94 @@
 #define LINE 256
 
 int substring(char *str1, char *str2);
-int getNextWord(char *txt, char *str, int wordNumber);
-int getCommand(char *word, char *command);
+int getNextWord(char *txt, char *str, int wordSize, int wordNumber);
+int getCommand(char *line, char *word, char *command);
 
 int main()
 {
     char word[WORD];
+    char wordInLine[WORD];
     char command = '0';
-    getCommand(word, &command);
+    char line[LINE];
+    fgets(line, LINE, stdin); //gets the line
+
+    printf("%d", getCommand(line, word, &command));
+    printf(" %s and %c\n", word, command);
+
     if (command == 'a') //line
     {
-        /* code */
+        while (1)
+        {
+            if (fgets(line, LINE, stdin) == 0) //gets the line
+            {
+                break;
+            }
+
+            int i = 1;
+            int hasAWord = 0;
+            while (getNextWord(line, wordInLine, WORD, i++)) //get next word
+            {
+                if (substring(wordInLine, word) > -1 && substring(wordInLine, word) < 2)
+                {
+                    hasAWord = 1;
+                    break;
+                }
+            }
+            if (hasAWord)
+            {
+                printf("%s", line);
+            }
+        }
     }
     else if (command == 'b') //word
     {
-        /* code */
-    }
+        while (1)
+        {
+            if (fgets(line, LINE, stdin) == 0) //gets the line
+            {
+                break;
+            }
 
-    return 0;
+            int i = 1;
+            while (getNextWord(line, wordInLine, WORD, i++)) //get next word
+            {
+                if (substring(wordInLine, word) > -1 && substring(wordInLine, word) < 2)
+                {
+                    printf("%s\n", wordInLine);
+                }
+            }
+        }
+
+        return 0;
+    }
 }
+
 /**
  * @brief Get the Command and the word
  * 
+ * @param line is the line to read from
  * @param word the place to put the word
  * @param command the place for the command
  * @return int 1 if succeeded -1 if failed
  */
-int getCommand(char *word, char *command)
+int getCommand(char *line, char *word, char *command)
 {
-    char current;
-    scanf(" %c", &current);
-
-    for (int i = 0; i < WORD; i++)
+    char temp[WORD];
+    if (!getNextWord(line, word, WORD, 1))
     {
-        if (current == ' ')
-        {
-            *command = current;
-            i = WORD;
-        }
-        else if (current == '\n')
-        {
-            i = WORD;
-        }
-
-        word[i] = current;
-        current = *(word + 1);
+        printf("error");
+        return -1;
+    }
+    if (!getNextWord(line, temp, WORD, 2))
+    {
+        printf("error");
+        return -1;
+    }
+    *command = *temp;
+    if (*(temp + 1) != '\0')
+    {
+        printf("error");
+        return -1;
     }
     return 1;
 }
@@ -95,43 +138,15 @@ int substring(char *str1, char *str2)
 }
 
 /**
- * @brief Get the next Line
- * 
- * @param line is the pointer to empty array
- * @return int the length of the line if error -1
- */
-int getLine(char *line)
-{
-    int sizeOfLine = 0;
-    char c;
-    if (scanf(" %c", &c) == 0)
-    {
-        printf("error");
-        return -1;
-    }
-    *line = c;
-    while (c != '\n')
-    {
-        if (scanf(" %c", &c) == 0)
-        {
-            printf("error");
-            return -1;
-        }
-        *(line + ++sizeOfLine) = c;
-    }
-
-    return sizeOfLine;
-}
-
-/**
  * @brief Get the Next Word number "wordNumber"
  *        starts from 1
  * @param txt the txt to look in
  * @param str the returned word
+ * @param wordSize the size of word array
  * @param wordNumber what number of word to look
  * @return int return 1 if succeeded 0 if no word found
  */
-int getNextWord(char *txt, char *str, int wordNumber)
+int getNextWord(char *txt, char *str, int wordSize, int wordNumber)
 {
     int i = 0;
     int posInWord = 0;
@@ -140,6 +155,11 @@ int getNextWord(char *txt, char *str, int wordNumber)
     {
         if (*(txt + i) != '\t' && *(txt + i) != ' ')
         {
+            if (posInWord + 2 >= wordSize)
+            {
+                printf("error: word is too big");
+                return -1;
+            }
             *(str + posInWord++) = *(txt + i++);
             *(str + posInWord) = '\0';
         }
