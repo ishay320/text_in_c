@@ -14,13 +14,12 @@ int main()
     char command = '0';
     char line[LINE];
     fgets(line, LINE, stdin); //gets the line
-
-    printf("%d", getCommand(line, word, &command));
-    printf(" %s and %c\n", word, command);
+    getCommand(line, word, &command);
 
     if (command == 'a') //line
     {
-        while (1)
+        int lineCount = 1;
+        while (lineCount++ != 250)
         {
             if (fgets(line, LINE, stdin) == 0) //gets the line
             {
@@ -45,7 +44,8 @@ int main()
     }
     else if (command == 'b') //word
     {
-        while (1)
+        int lineCount = 1;
+        while (lineCount++ != 250)
         {
             if (fgets(line, LINE, stdin) == 0) //gets the line
             {
@@ -88,11 +88,6 @@ int getCommand(char *line, char *word, char *command)
         return -1;
     }
     *command = *temp;
-    if (*(temp + 1) != '\0')
-    {
-        printf("error");
-        return -1;
-    }
     return 1;
 }
 
@@ -153,7 +148,7 @@ int getNextWord(char *txt, char *str, int wordSize, int wordNumber)
     int passedWord = 0;
     while (*(txt + i) != '\n' && *(txt + i) != '\0' && passedWord != wordNumber)
     {
-        if (*(txt + i) != '\t' && *(txt + i) != ' ')
+        if (*(txt + i) != '\t' && *(txt + i) != ' ' && *(txt + i) != '\r')
         {
             if (posInWord + 2 >= wordSize)
             {
