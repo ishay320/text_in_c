@@ -3,6 +3,7 @@
 #define WORD 30
 #define LINE 256
 
+int fullSubstring(char *str1, char *str2);
 int substring(char *str1, char *str2);
 int getNextWord(char *txt, char *str, int wordSize, int wordNumber);
 int getCommand(char *line, char *word, char *command);
@@ -27,18 +28,13 @@ int main()
             }
 
             int i = 1;
-            int hasAWord = 0;
             while (getNextWord(line, wordInLine, WORD, i++)) //get next word
             {
-                if (substring(wordInLine, word) > -1 && substring(wordInLine, word) < 2)
+                if (fullSubstring(wordInLine, word))
                 {
-                    hasAWord = 1;
+                    printf("%s", line);
                     break;
                 }
-            }
-            if (hasAWord)
-            {
-                printf("%s", line);
             }
         }
     }
@@ -89,6 +85,43 @@ int getCommand(char *line, char *word, char *command)
     }
     *command = *temp;
     return 1;
+}
+
+/**
+ * @brief check if str2 is in str1 without skips
+ * @param str1 the word to be checked
+ * @param str2 the word that checks
+ * @return int 
+ *      if true return 1,
+ *      if false return 0
+ */
+int fullSubstring(char *str1, char *str2)
+{
+    char c1 = *str1;
+    char c2 = *str2;
+    int i = 1;
+    int j = 1;
+    while (c1 != '\0' && c2 != '\0')
+    {
+        if (c1 == c2)
+        {
+            c1 = *(str1 + i++);
+            c2 = *(str2 + j++);
+        }
+        else
+        {
+            c1 = *(str1 + i++);
+            if (j > 1)
+            {
+                return 0;
+            }
+        }
+    }
+    if (c2 == '\0')
+    {
+        return 1;
+    }
+    return 0;
 }
 
 /**
@@ -150,7 +183,7 @@ int getNextWord(char *txt, char *str, int wordSize, int wordNumber)
     {
         if (*(txt + i) != '\t' && *(txt + i) != ' ' && *(txt + i) != '\r')
         {
-            if (posInWord + 2 >= wordSize)
+            if (posInWord + 1 >= wordSize)
             {
                 printf("error: word is too big");
                 return -1;
@@ -169,6 +202,10 @@ int getNextWord(char *txt, char *str, int wordSize, int wordNumber)
         }
     }
     if (passedWord == wordNumber && wordNumber > 0)
+    {
+        return 1;
+    }
+    if (passedWord + 1 == wordNumber && posInWord != 0)
     {
         return 1;
     }
