@@ -1,3 +1,0 @@
-github.com/ishay320/ex3.c.git
-b06c465ec6f9b6c0f744cc9fca6ab074e88f3234
-206303851 207047986
